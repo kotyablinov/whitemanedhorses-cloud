@@ -13,8 +13,10 @@ services:
       # - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entryPoints.websecure.address=:443"
-      - "--certificatesresolvers.letsencryptresolver.acme.tlschallenge=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencryptresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencryptresolver.acme.httpchallenge.entrypoint=web"
       #- "--certificatesresolvers.letsencryptresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencryptresolver.acme.email=aladina.kate@gmail.com"
       - "--certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json"
@@ -27,6 +29,7 @@ services:
       - "traefik.http.routers.traefik.middlewares=traefikauth"
       - "traefik.http.middlewares.traefikauth.basicauth.usersfile=/users/passwords"
     ports:
+      - "80:80"
       - "443:443"
       - "8080:8080"
     volumes:

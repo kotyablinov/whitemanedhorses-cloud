@@ -26,5 +26,5 @@ apt install apache2-utils -y
 Сгенерировать файл с паролем:
 
 ```bash
-echo $(htpasswd -nB user) | sed -e s/\\$/\\$\\$/g > ./users/passwords
+echo $(htpasswd -nB user) > ./users/passwords
 ```
