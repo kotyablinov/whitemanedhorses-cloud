@@ -1,2 +1,4 @@
 letsencrypt/*
 !letsencrypt/.gitkeep
+users/*
+!users/.gitkeep
