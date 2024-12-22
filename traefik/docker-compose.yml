@@ -3,6 +3,7 @@ services:
   traefik:
     image: "traefik:v3.2"
     container_name: "whitemanedhorses-traefik-traefik"
+    restart: unless-stopped
     networks:
       - default
       - whitemanedhorses
@@ -39,6 +40,7 @@ services:
 
   whoami:
     image: "traefik/whoami"
+    restart: unless-stopped
     container_name: "whitemanedhorses-traefik-whoami"
     networks:
       - whitemanedhorses
