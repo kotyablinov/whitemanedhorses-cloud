@@ -53,7 +53,7 @@ docker compose pull
 docker compose up -d
 ```
 
-### 1.3 Проверка работы Traefik
+### 1.4 Проверка работы Traefik
 
 Открыть в браузере `traefik.whitemanedhorses.ru`.
 
