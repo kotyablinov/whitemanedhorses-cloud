@@ -108,6 +108,10 @@ docker compose pull
 docker compose up -d
 ```
 
+После поднятия контейнеров в маршрутах Traefik отобразится новый до Authentik:
+
+![](images/traefik-dashboard-routers-2.png)
+
 ### 2.3 Первоначальная настройка
 
 Чтобы начать первоначальную настройку, перейдите по ссылке `auth.whitemanedhorses.ru/if/flow/initial-setup/`. Вести почту и логин от аккаунта `akadmin`. Этот пользователь будет администратором по умолчанию.
