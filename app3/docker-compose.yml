@@ -1,0 +1,49 @@
+services:
+    proxy3:
+        image: ghcr.io/goauthentik/proxy
+        container_name: "whitemanedhorses-app3-proxy3"
+        # ports:
+            # - 9000:9000
+        #     - 9443:9443
+        environment:
+            - "AUTHENTIK_HOST=https://auth.whitemanedhorses.ru/"
+            - "AUTHENTIK_INSECURE=false"
+            - "AUTHENTIK_TOKEN=${AUTHENTIK_TOKEN}"
+            # Starting with 2021.9, you can optionally set this too
+            # when authentik_host for internal communication doesn't match the public URL
+            # AUTHENTIK_HOST_BROWSER: https://external-domain.tld
+        networks:
+            - default
+            - whitemanedhorses
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=whitemanedhorses"
+            - "traefik.http.routers.proxy3.rule=Host(`app3.whitemanedhorses.ru`) && PathPrefix(`/outpost.goauthentik.io/`)"
+            # `authentik-proxy3` refers to the service name in the compose file.
+            - "traefik.http.middlewares.proxy3.forwardauth.address=https://app3.whitemanedhorses.ru/outpost.goauthentik.io/auth/traefik"
+            - "traefik.http.middlewares.proxy3.forwardauth.trustForwardHeader=true"
+            - "traefik.http.middlewares.proxy3.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+            - "traefik.http.routers.proxy3.entrypoints=websecure"
+            - "traefik.http.routers.proxy3.tls.certresolver=letsencryptresolver"
+            - "traefik.http.services.proxy3.loadbalancer.server.port=9000"
+        restart: unless-stopped
+
+    whoami:
+        image: "traefik/whoami"
+        container_name: "whitemanedhorses-app3-whoami"
+        networks:
+            - default
+            - whitemanedhorses
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=whitemanedhorses"
+            - "traefik.http.routers.app3.middlewares=proxy3@docker"
+            - "traefik.http.routers.app3.rule=Host(`app3.whitemanedhorses.ru`)"
+            - "traefik.http.routers.app3.entrypoints=websecure"
+            - "traefik.http.routers.app3.tls.certresolver=letsencryptresolver"
+        restart: unless-stopped
+  
+networks:
+  whitemanedhorses:
+    name: whitemanedhorses
+    external: true
