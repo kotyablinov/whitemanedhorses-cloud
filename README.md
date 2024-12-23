@@ -1,4 +1,4 @@
-# whitemanedhorses-cloud
+# Облако белогривых лошадок
 
 ## Авторы и вклад
 
@@ -271,10 +271,35 @@ docker compose up -d
 
 ## 8. Итоговые маршруты Traefik
 
-В конеченом итоге получим следующие HTTP-маршруты:
+В результате проделанных выше действий получим следующие HTTP-маршруты Traefik:
 
 ![](images/traefik-dashboard-routers-3.png)
 
 ## Выводы
 
-// TODO
+Успешно выполнена настройка Traefik и Authentik, а также развертывание приложений с различными уровнями доступа.
+
+В соответствии с требованиями:
+
+1. Существует Auth (в виде Authentik):
+   1. Хранится отображение вида User: [Available Resources] - реализовано в Authentik на вкладке Пользователи.
+   2. Отображение можно получить и обновить по API для каждого пользователя - для каждого пользователя можно редактировать доступ к приложению в Authentik.
+2. Существует Router (в виде Traefik):
+   1. Выполняет свою базовую функцию - перенаправляет запросы пользователей - Traefik перенаправляет запросы пользователей.
+   2. Имеет API для добавления или удаления правил перенаправления - Traefik поддерживает динамическое изменение перенаправлений.
+   3. Умеет проверять права пользователей на доступ к необходимому ресурсу - данная задача решается в Authentik.
+3. Создано 3 приложения с одним и тем же функционалом, но разными правами доступа для различных пользователей:
+   1. К `app1` можно подключиться даже неавторизированным пользователям.
+   2. К `app2` могут подключиться только авторизированные пользователи.
+   3. К `app3` подключаются только пользователи с правами администратора.
+
+## Источники
+
+1. [Authentik: Single Sign-On for Your Self-Hosted Apps (Forward Auth and OAuth2)](https://www.youtube.com/watch?v=ywQVe9ikcVI) - базовые концепции SSO в Authentik.
+2. [Документация Traefik](https://doc.traefik.io/traefik/).
+3. [Simple HTTPs for Docker! // Traefik Tutorial](https://www.youtube.com/watch?v=-hfejNXqOzA) - краткий гайд по Let's Encrypt.
+4. [Setup SSL with Traefik and Let's Encrypt](https://thomasventurini.com/articles/setup-ssl-with-traefik-and-lets-encrypt/) - еще один краткий гайд по Let's Encrypt.
+5. [Let's Encrupt документация в Traefik](https://doc.traefik.io/traefik/user-guides/docker-compose/acme-tls/)
+6. [Документация Authentik](https://docs.goauthentik.io/docs/).
+7. [Forward authentication Traefik | Authentik](https://docs.goauthentik.io/docs/add-secure-apps/providers/proxy/server_traefik) - проксирование Forward Auth в Traefik.
+8. [Secure authentication for EVERYTHING! // Authentik](https://www.youtube.com/watch?v=N5unsATNpJk) - краткий гайд по Authentik.
