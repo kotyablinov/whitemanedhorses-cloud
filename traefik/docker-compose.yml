@@ -23,6 +23,7 @@ services:
       - "--certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json"
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=whitemanedhorses"
       - "traefik.http.routers.traefik.rule=Host(`traefik.whitemanedhorses.ru`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=letsencryptresolver"
@@ -46,6 +47,7 @@ services:
       - whitemanedhorses
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=whitemanedhorses"
       - "traefik.http.routers.whoami.rule=Host(`app1.whitemanedhorses.ru`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=letsencryptresolver"

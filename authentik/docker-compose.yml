@@ -42,7 +42,6 @@ services:
     container_name: "whitemanedhorses-authentik-server"
     restart: unless-stopped
     networks:
-      - default
       - authentik
       - whitemanedhorses
     command: server
@@ -54,11 +53,11 @@ services:
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=whitemanedhorses"
       - "traefik.http.routers.authentik.rule=Host(`auth.whitemanedhorses.ru`)"
       - "traefik.http.routers.authentik.entrypoints=websecure"
       - "traefik.http.routers.authentik.tls.certresolver=letsencryptresolver"
       - "traefik.http.services.authentik.loadbalancer.server.port=9000"
-      - "traefik.docker.network=proxy"
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
