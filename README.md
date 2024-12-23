@@ -162,4 +162,34 @@ docker compose up -d
 
 ![](images/authentik-app2-5.png)
 
-## 4. Развертывание App2
+## 4. Развертывание app2
+
+Команды данного раздела нужно выполнять в папке [app2](./app2).
+
+### 4.1. Генерация секретов
+
+Необходимо [сгенерировать секреты](https://docs.goauthentik.io/docs/install-config/install/docker-compose). Находясь в папке `app2` выполнить команду:
+
+```bash
+echo "COMPOSE_PROJECT_NAME=whitemanedhorses-app2" >> .env
+echo "AUTHENTIK_TOKEN=<ТОКЕН ДЛЯ ВНЕШНЕГО КОМПОНЕНТА, ПОЛУЧЕННЫЙ РАНЕЕ ДЛЯ APP2>" >> .env
+```
+
+### 4.2. Поднятие контейнеров
+
+Поднять docker compose из папки `app2`:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+### 4.3. Проверка приложения app2
+
+Открыть в браузере `app2.whitemanedhorses.ru`. Будет открыта страничка с данными для входа. Если ранее был осуществлен вход в Authentik, то появится следующее уведомление:
+
+![](./images/app2-login-1.png)
+
+Если принять соглашения, то произойдет редирект в приложение `app2`:
+
+![](./images/app2-login-2.png)
